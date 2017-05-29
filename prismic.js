@@ -17,8 +17,8 @@ function updateEvents() {
                                 name: event.getText('event.name'),
                                 capacity: event.getNumber('event.capacity'),
                                 description: event.getStructuredText('event.description').asText(),
-                                begins: event.getDate('event.begins'),
-                                ends: event.getDate('event.ends')
+                                begins: event.getTimestamp('event.begins'),
+                                ends: event.getTimestamp('event.ends')
                             }
                         }
                     )
@@ -29,8 +29,8 @@ function updateEvents() {
                         capacity: event.getNumber('event.capacity'),
                         description: event.getStructuredText('event.description').asText(),
                         signups: [],
-                        begins: event.getDate('event.begins'),
-                        ends: event.getDate('event.ends')
+                        begins: event.getTimestamp('event.begins'),
+                        ends: event.getTimestamp('event.ends')
                     })
             })
             .catch(console.warn)
