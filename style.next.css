@@ -1,0 +1,123 @@
+@media(--desktop) {
+    html, body, input, textarea, button {
+        font-size: 14px;
+    }
+}
+
+.content-tube {
+    padding: 30px 0;
+
+    @media(--desktop) {
+        padding: 30px calc((100vw - 960px) / 2);
+    }
+
+    @media(--large-desktop) {
+        padding: 30px calc((100vw - 1180px) / 2);
+    }
+}
+
+.calendar {
+    display: flex;
+
+    & > div {
+        position: relative;
+
+        width: calc((99.9% - 120px) * 1/7);
+
+        &:first-child {
+            width: 120px;
+        }
+
+        & > * {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            min-height: 30px;
+            text-align: center;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            border-right: 1px solid rgba(0, 0, 0, 0.12);
+        }
+
+        & .day {
+            height: 100px;
+
+            font-size: 1.2em;
+            background-color: rgb(43, 47, 42);
+            color: white;
+        }
+
+        & .day-spacer {
+            height: 100px;
+        }
+
+        & .timespan {
+            font-size: .9em;
+        }
+
+        & .event {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            background-color: rgba(43, 47, 42, .33);
+            color: white;
+            font-weight: 500;
+            font-size: 1.3em;
+            border-color: white;
+        }
+    }
+}
+
+@for $i from 1 to 23 {
+    .offset-$(i)-slots {
+        top: calc(100px + $(i) * 30px);
+    }
+
+    .span-$(i)-slots {
+        height: calc($(i) * 30px);
+    }
+}
+
+section.event {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    &:nth-of-type(even) {
+        align-items: flex-end;
+
+        text-align: right;
+
+        background-color: rgba(43, 47, 42);
+        color: white;
+
+        & .signup {
+            flex-direction: row-reverse;
+        }
+
+        & img.icon {
+            filter: invert(1);
+        }
+    }
+
+    & h1 {
+        font-weight: 200;
+    }
+
+    & p {
+        max-width: 650px;
+    }
+
+    & .signup {
+        display: flex;
+        align-items: center;
+
+        font-size: 1.4em;
+    }
+}
+
+img.icon {
+    height: 35px;
+    margin: 0 9px;
+}

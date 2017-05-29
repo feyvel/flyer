@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="brand-color" content="#ed8e11">
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700" rel="stylesheet">
+    <link href="/style.min.css" rel="stylesheet">
+
+    <!-- <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
+
+    <title>Orientierungswoche Psychologie Goethe Uni Frankfurt</title>
+</head>
+
+<body>
+    <header class="calendar" id="calendar">
+        <div>
+            <div class="day-spacer"></div>
+            <div class="timespan">08:00-08:30</div>
+            <div class="timespan">08:30-09:00</div>
+            <div class="timespan">09:00-09:30</div>
+            <div class="timespan">09:30-10:00</div>
+            <div class="timespan">10:00-10:30</div>
+            <div class="timespan">10:30-11:00</div>
+            <div class="timespan">11:00-11:30</div>
+            <div class="timespan">11:30-12:00</div>
+            <div class="timespan">12:00-12:30</div>
+            <div class="timespan">12:30-13:00</div>
+            <div class="timespan">13:00-13:30</div>
+            <div class="timespan">13:30-14:00</div>
+            <div class="timespan">14:00-14:30</div>
+            <div class="timespan">14:30-15:00</div>
+            <div class="timespan">15:00-15:30</div>
+            <div class="timespan">15:30-16:00</div>
+            <div class="timespan">16:00-16:30</div>
+            <div class="timespan">16:30-17:00</div>
+            <div class="timespan">17:00-17:30</div>
+            <div class="timespan">17:30-18:00</div>
+            <div class="timespan">18:00-18:30</div>
+            <div class="timespan">18:30-19:00</div>
+            <div class="timespan">19:00-19:30</div>
+            <div class="timespan">19:30-20:00</div>
+            <div class="timespan">20:00-20:30</div>
+        </div>
+        <div v-for="day in days">
+            <div class="day">{{ dayNames[day.moment.day()] }}</div>
+            <div v-bind:class="getRandomEventClasses()">
+                Event
+            </div>
+            <div class="event" v-for="event in day.events">
+                {{ event.name }}
+            </div>
+            <div v-for="n in 25"></div>
+        </div>
+    </header>
+
+    <main id="events">
+        <section v-bind:id="event._uid" v-for="event in events" class="event content-tube">
+            <h1>{{ event.name }}</h1>
+
+            <div v-html="event.description"></div>
+
+            <div class="signup">
+                <button
+                    v-if="event.signups.indexOf(userId) == -1"
+                    v-on:click="signUp(event._id)"
+                >
+                    Anmelden
+                </button>
+                <button
+                    v-if="event.signups.indexOf(userId) != -1"
+                    v-on:click="signOff(event._id)"
+                >
+                    Abmelden
+                </button>
+                <img class="icon" src="/person.svg" alt="">
+                {{ event.signups.length }}/{{ event.capacity }}
+            </div>
+        </section>
+    </main>
+
+    <script src="https://unpkg.com/jquery"></script>
+    <script src="https://unpkg.com/moment"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="/app.js"></script>
+</body>
+
+</html>
