@@ -12,7 +12,9 @@ db.connect(DB_URL, startServer)
 function startServer(err) {
     assert.ifError(err)
 
-    setInterval(require('./prismic'), 30000)
+    const updateEvents = require('./prismic')
+    setInterval(updateEvents, 30000)
+    updateEvents()
 
     var app = express()
     app.use(cors())
