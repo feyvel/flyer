@@ -65,6 +65,7 @@
             font-weight: 500;
             font-size: 1.3em;
             border-color: white;
+            cursor: pointer;
         }
     }
 }
@@ -79,6 +80,13 @@
     }
 }
 
+section.category {
+    &:nth-of-type(1) section.event {
+        &:nth-of-type(even) { background-color: rgba(43, 47, 42); color: white; }
+        &:nth-of-type(odd) { background-color: white; }
+    }
+}
+
 section.event {
     display: flex;
     flex-direction: column;
@@ -88,9 +96,6 @@ section.event {
         align-items: flex-end;
 
         text-align: right;
-
-        background-color: rgba(43, 47, 42);
-        color: white;
 
         & .signup {
             flex-direction: row-reverse;

@@ -5,7 +5,6 @@ var events = []
 
 $.getJSON('http://localhost:8080/api/events', function(data) {
     events.push(...data)
-    console.dir(events)
 })
 
 function scrollToAnchor(hash) {
@@ -17,14 +16,6 @@ function scrollToAnchor(hash) {
         }
     )
 }
-
-$('a[href^=\\#]').on('click', function(e) {
-    e.preventDefault()
-
-    var hash = this.hash
-
-    scrollToAnchor(hash)
-})
 
 new Vue({
     el: '#events',
@@ -76,7 +67,6 @@ new Vue({
     el: '#calendar',
     data: {
         events: events,
-        days: [],
         dayNames: [
             'Sonntag',
             'Montag',
@@ -87,29 +77,49 @@ new Vue({
             'Samstag'
         ]
     },
-    mounted: function mounted() {
-        var start = moment().hours(0).minutes(0).seconds(0)
+    computed: {
+        days: function days() {
+            var ret = []
+            var start = moment('2017-05-29').hours(0).minutes(0).seconds(0)
 
-        for(var i = 0; i < 7; i++) {
-            var actDay = start.clone().add(i, 'days')
+            for(var i = 0; i < 7; i++) {
+                var actDay = start.clone().add(i, 'days')
 
-            this.days.push({
-                moment: actDay,
-                events: this.events.filter(function happensAtCurrentDay(event) {
-                    return moment(event.begins).day() == actDay.day()
+                ret.push({
+                    moment: actDay,
+                    events: this.events.filter(function happensAtCurrentDay(event) {
+                        return moment(event.begins).date() == actDay.date()
+                    })
                 })
-            })
+            }
+
+            return ret
         }
     },
     methods: {
-        getRandomOffset: function getRandomOffset() {
-            return Math.floor(Math.random() * 16 + 1)
+        getOffset: function getOffset(event) {
+            var begins = moment(event.begins)
+
+            var ret = (begins.hours() - 8) * 2
+
+            if(begins.minutes() > 29)
+                ret += 1
+
+            return ret
         },
-        getRandomLength: function getRandomLength() {
-            return Math.floor(Math.random() * 7 + 1)
+
+        getLengthInSlots: function getLengthInSlots(event) {
+            return Math.ceil(
+                moment(event.ends).diff(moment(event.begins), 'minutes') / 30
+            )
         },
-        getRandomEventClasses: function getRandomEventClasses() {
-            return 'event span-' + this.getRandomLength() + '-slots offset-' + this.getRandomOffset() + '-slots'
+
+        getEventClasses: function getRandomEventClasses(event) {
+            return 'event span-' + this.getLengthInSlots(event) + '-slots offset-' + this.getOffset(event) + '-slots'
+        },
+
+        scrollTo: function scrollTo(event) {
+            scrollToAnchor('#' + event._id)
         }
     }
 })

@@ -47,38 +47,45 @@
         </div>
         <div v-for="day in days">
             <div class="day">{{ dayNames[day.moment.day()] }}</div>
-            <div v-bind:class="getRandomEventClasses()">
-                Event
-            </div>
-            <div class="event" v-for="event in day.events">
+            <div v-for="n in 25"></div>
+            <div
+                v-bind:class="getEventClasses(event)"
+                v-for="event in day.events"
+                v-on:click="scrollTo(event)"
+            >
                 {{ event.name }}
             </div>
-            <div v-for="n in 25"></div>
         </div>
     </header>
 
     <main id="events">
-        <section v-bind:id="event._uid" v-for="event in events" class="event content-tube">
-            <h1>{{ event.name }}</h1>
+        <section class="category">
+            <section
+                v-bind:id="event._id"
+                v-for="event in events"
+                class="event content-tube"
+            >
+                <h1>{{ event.name }}</h1>
 
-            <div v-html="event.description"></div>
+                <p v-html="event.description"></p>
 
-            <div class="signup">
-                <button
-                    v-if="event.signups.indexOf(userId) == -1"
-                    v-on:click="signUp(event._id)"
-                >
-                    Anmelden
-                </button>
-                <button
-                    v-if="event.signups.indexOf(userId) != -1"
-                    v-on:click="signOff(event._id)"
-                >
-                    Abmelden
-                </button>
-                <img class="icon" src="/person.svg" alt="">
-                {{ event.signups.length }}/{{ event.capacity }}
-            </div>
+                <div class="signup">
+                    <button
+                        v-if="event.signups.indexOf(userId) == -1"
+                        v-on:click="signUp(event._id)"
+                    >
+                        Anmelden
+                    </button>
+                    <button
+                        v-if="event.signups.indexOf(userId) != -1"
+                        v-on:click="signOff(event._id)"
+                    >
+                        Abmelden
+                    </button>
+                    <img class="icon" src="/person.svg" alt="">
+                    {{ event.signups.length }}/{{ event.capacity }}
+                </div>
+            </section>
         </section>
     </main>
 

@@ -2,36 +2,37 @@ const Prismic = require('prismic.io')
 const Promise = require('promise')
 const db = require('mongoennung')
 
-const collection = db.collection('events')
+const eventCollection = db.collection('events')
 
 function updateEvents() {
     function updateEvent(event) {
-        return collection
+        return eventCollection
             .findOne({ _id: event.uid })
             .then(function decideAction(result) {
-                if(result)
-                    return collection.updateOne(
+                function transformToInner(prismicEvent) {
+                    return {
+                        name: prismicEvent.getText('event.name'),
+                        capacity: prismicEvent.getNumber('event.capacity'),
+                        description: prismicEvent.getStructuredText('event.description').asText(),
+                        begins: prismicEvent.getTimestamp('event.begins'),
+                        ends: prismicEvent.getTimestamp('event.ends')
+                    }
+                }
+
+                if(result) {
+                    return eventCollection.updateOne(
                         { _id: event.uid },
                         {
-                            $set: {
-                                name: event.getText('event.name'),
-                                capacity: event.getNumber('event.capacity'),
-                                description: event.getStructuredText('event.description').asText(),
-                                begins: event.getTimestamp('event.begins'),
-                                ends: event.getTimestamp('event.ends')
-                            }
+                            $set: transformToInner(event)
                         }
                     )
-                else
-                    return collection.insertOne({
-                        _id: event.uid,
-                        name: event.getText('event.name'),
-                        capacity: event.getNumber('event.capacity'),
-                        description: event.getStructuredText('event.description').asText(),
-                        signups: [],
-                        begins: event.getTimestamp('event.begins'),
-                        ends: event.getTimestamp('event.ends')
-                    })
+                } else {
+                    let myEvent = transformToInner(event)
+                    myEvent._id = event.uid
+                    myEvent.signups = []
+
+                    return eventCollection.insertOne({ myEvent })
+                }
             })
             .catch(console.warn)
     }
