@@ -5,7 +5,7 @@ const cors = require('cors')
 const db = require('mongoennung')
 
 const PORT = process.env.PORT || 8080
-const DB_URL = process.env.DATABASE_URL || 'mongodb://localhost:27017/flyer'
+const DB_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/flyer'
 
 db.connect(DB_URL, startServer)
 
