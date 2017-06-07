@@ -34,7 +34,7 @@ function updateEvents() {
                     myEvent._id = event.uid
                     myEvent.signups = []
 
-                    return eventCollection.insertOne({ myEvent })
+                    return eventCollection.insertOne(myEvent)
                 }
             })
             .catch(console.warn)
