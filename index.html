@@ -65,7 +65,12 @@
                 v-for="event in events"
                 class="event content-tube"
             >
-                <h1>{{ event.name }}</h1>
+                <h1>
+                    {{ event.name }}
+                    <small class="new-line">
+                        {{ getTimeSpanString(event) }}, {{ event.location }}
+                    </small>
+                </h1>
 
                 <p v-html="event.description"></p>
 
@@ -85,6 +90,8 @@
                     <img class="icon" src="/person.svg" alt="">
                     {{ event.signups.length }}/{{ event.capacity }}
                 </div>
+
+                Kontakt: {{ event.contactName }} {{ event.email }}
             </section>
         </section>
     </main>

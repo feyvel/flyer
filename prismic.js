@@ -15,7 +15,10 @@ function updateEvents() {
                         capacity: prismicEvent.getNumber('event.capacity'),
                         description: prismicEvent.getStructuredText('event.description').asText(),
                         begins: prismicEvent.getTimestamp('event.begins'),
-                        ends: prismicEvent.getTimestamp('event.ends')
+                        ends: prismicEvent.getTimestamp('event.ends'),
+                        location: prismicEvent.getText('event.location'),
+                        email: prismicEvent.getText('event.contact-email'),
+                        contactName: prismicEvent.getText('event.contact-name')
                     }
                 }
 

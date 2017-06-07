@@ -59,6 +59,11 @@ new Vue({
         },
         signOff: function signOff(id) {
             this.patchSignUpStatus(id, false)
+        },
+        getTimeSpanString: function getTimeSpanString(event) {
+            return moment(event.begins).format('dddd, HH:mm')
+                + ' - '
+                + moment(event.ends).format('HH:mm')
         }
     }
 })
