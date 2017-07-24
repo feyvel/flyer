@@ -118,7 +118,7 @@ label, textarea, button {
 }
 
 input, textarea, button {
-    border: 2px solid;
+    border: 2px solid white;
     border-radius: 6px;
     outline: none;
     font-family: 'Raleway', cursive;
