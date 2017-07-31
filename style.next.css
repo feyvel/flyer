@@ -19,6 +19,13 @@
 
     background-color: #2b2f2a;
     color: white;
+
+    transition: opacity 1s linear;
+    opacity: 1;
+
+    &.loggedin {
+        opacity: 0;
+    }
 }
 
 .login-form {
@@ -30,6 +37,7 @@
 
 .login-input {
     margin: 10px 30px;
+    color: white;
 
     &::placeholder {
         color: #cccccc;

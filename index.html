@@ -16,11 +16,20 @@
 </head>
 
 <body>
-    <div class="login-overlay">
+    <div login class="login-overlay" v-bind:class="{ loggedin: loggedIn }">
         <div class="login-form content-tube">
-            <input class="login-input" placeholder="E-Mail..." type="text">
-            <input class="login-input" placeholder="Passwort..." type="text">
-            <button>Login</button>
+            <h2>Goehte Universität Psychologie</h2>
+
+            <input v-model="email" class="login-input" placeholder="E-Mail..." type="text">
+
+            <input v-model="password" class="login-input" placeholder="Passwort..." type="password">
+            <p v-if="loginError" style="color: red">
+                Invalid password
+            </p>
+
+            <button @click="login">
+                Login
+            </button>
         </div>
     </div>
 

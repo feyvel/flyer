@@ -1,11 +1,20 @@
 var root = $('html, body')
 
-var userId = 'changeme'
+var API_HOST = 'http://localhost:8080'
+var credentials = {
+    email: '',
+    password: ''
+}
 var events = []
 
-$.getJSON('http://localhost:8080/api/events', function(data) {
-    events.push(...data)
-})
+function isLoggedIn() {
+    return credentials.email && credentials.password
+}
+
+function requestError(reason) {
+    console.error('Request failed')
+    console.error('reason')
+}
 
 function scrollToAnchor(hash) {
     root.animate(
@@ -17,12 +26,68 @@ function scrollToAnchor(hash) {
     )
 }
 
+function buildBasicAuthheader(user, password) {
+    return 'Basic ' + btoa((user || credentials.email) + ':' + (password || credentials.password))
+}
+
+function request(url, success, error, data) {
+    return $.ajax({
+        url: url,
+        type: data ? 'POST' : 'GET',
+        headers: {
+            'Authorization': buildBasicAuthheader()
+        },
+        success: success,
+        error: error,
+        dataType: 'json'
+    })
+}
+
+new Vue({
+    el: '[login]',
+    data: {
+        email: '',
+        password: '',
+        loginError: false,
+        loggedIn: false
+    },
+    methods: {
+        login: function login() {
+            var self = this
+
+            self.loginError = false
+
+            $.ajax({
+                url: API_HOST + '/api/events',
+                type: 'GET',
+                headers: {
+                    'Authorization': buildBasicAuthheader(self.email, self.password)
+                },
+                success: function(data) {
+                    events.push(...data)
+
+                    credentials = {
+                        email: self.email,
+                        password: self.password
+                    }
+
+                    self.loggedIn = true
+                },
+                error: function setLoginError() {
+                    self.loginError = true
+                },
+                dataType: 'json'
+            })
+        }
+    }
+})
+
 new Vue({
     el: '#events',
     data: {
         events: events,
         failures: {},
-        userId: userId
+        userId: credentials.email
     },
     methods: {
         patchSignUpStatus: function patchSignUpStatus(id, status) {
@@ -31,9 +96,10 @@ new Vue({
             $.ajax({
                 headers : {
                     'Accept' : 'application/json',
-                    'Content-Type' : 'application/json'
+                    'Content-Type' : 'application/json',
+                    'Authorization': buildBasicAuthheader()
                 },
-                url : 'http://localhost:8080/api/events/' + id,
+                url : API_HOST + '/api/events/' + id,
                 type : 'PATCH',
                 data : JSON.stringify(status),
                 success : function updateSignupStatus() {
@@ -42,9 +108,9 @@ new Vue({
                             return false
 
                         if(status)
-                            event.signups.push(this.userId)
+                            event.signups.push(credentials.email)
                         else
-                            event.signups.splice(event.signups.indexOf(self.userId), 1)
+                            event.signups.splice(event.signups.indexOf(credentials.email), 1)
 
                         return true
                     })

@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const assertError = require('assert').ifError
 const bodyParser = require('body-parser')
+const basicAuth = require('express-basic-auth')
 
 const jsonSchemaMiddleware = require('json-schema-validation-middleware')
 const db = require('mongoennung')
