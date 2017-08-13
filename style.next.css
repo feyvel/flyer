@@ -9,7 +9,7 @@
     justify-content: center;
     align-items: center;
 
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 10;
@@ -25,6 +25,7 @@
 
     &.loggedin {
         opacity: 0;
+        pointer-events: none;
     }
 }
 
@@ -165,4 +166,19 @@ section.event {
 img.icon {
     height: 35px;
     margin: 0 9px;
+}
+
+.article {
+    @media(--desktop) {
+        padding: 30px calc((100vw - 800px) / 2);
+    }
+
+    @media(--large-desktop) {
+        padding: 30px calc((100vw - 800px) / 2);
+    }
+
+    & img {
+        display: block;
+        width: 100%;
+    }
 }

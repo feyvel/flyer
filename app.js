@@ -8,12 +8,12 @@ var credentials = {
 var events = []
 
 function isLoggedIn() {
-    return credentials.email && credentials.password
+    return credentials.email.length > 0 && credentials.password.length > 0
 }
 
 function requestError(reason) {
     console.error('Request failed')
-    console.error('reason')
+    console.error(reason)
 }
 
 function scrollToAnchor(hash) {
@@ -66,10 +66,8 @@ new Vue({
                 success: function(data) {
                     events.push(...data)
 
-                    credentials = {
-                        email: self.email,
-                        password: self.password
-                    }
+                    credentials.email = self.email
+                    credentials.password = self.password
 
                     self.loggedIn = true
                 },
@@ -83,7 +81,7 @@ new Vue({
 })
 
 new Vue({
-    el: '#events',
+    el: '[events]',
     data: {
         events: events,
         failures: {},
@@ -130,12 +128,15 @@ new Vue({
             return moment(event.begins).format('dddd, HH:mm')
                 + ' - '
                 + moment(event.ends).format('HH:mm')
+        },
+        isSignedUp: function isSignedUp(event) {
+            return event.signups.indexOf(credentials.email) != -1
         }
     }
 })
 
 new Vue({
-    el: '#calendar',
+    el: '[calendar]',
     data: {
         events: events,
         dayNames: [
@@ -191,6 +192,41 @@ new Vue({
 
         scrollTo: function scrollTo(event) {
             scrollToAnchor('#' + event._id)
+        }
+    }
+})
+
+new Vue({
+    el: '[header]',
+    data: {
+        content: ''
+    },
+    mounted: function mounted() {
+        var self = this
+
+        function success(data) {
+            self.content = data
+        }
+
+        return $.ajax({
+            url: API_HOST + '/api/header',
+            type: 'GET',
+            headers: {
+                'Authorization': buildBasicAuthheader()
+            },
+            success: success
+        })
+    }
+})
+
+new Vue({
+    el: '[loggedin-container]',
+    data: {
+        credentials: credentials
+    },
+    computed: {
+        isLoggedIn: function isLoggedIn() {
+            return credentials.email && credentials.password
         }
     }
 })

@@ -8,12 +8,20 @@ const db = require('mongoennung')
 
 const collection = db.collection('events')
 
+const PASSWORD = process.env.PASSWORD || 'lalala'
+
 router.use(bodyParser.json({ strict: false }))
+router.use(basicAuth({
+    authorizer: (user, password) => password == PASSWORD
+}))
 router.use(userMiddleware)
 router.param('id', idMiddleware)
 
 router.route('/')
     .get(handleGetAll)
+
+router.route('/header')
+    .get(handleGetHeader)
 
 router.route('/:id')
     .patch(handlePatch)
@@ -70,14 +78,25 @@ function handleGetAll(req, res) {
         })
 }
 
+function handleGetHeader(req, res) {
+    Prismic
+        .api('http://goethe-flyer.prismic.io/api')
+        .then(function fetchHeader(api) {
+            return api.query(Prismic.Predicates.at('document.type', 'header'))
+        })
+        .then(function transformToHtml(header) {
+            const html = header.getStructuredText('my.header.content').asHtml()
+
+            res.status(200).send(html)
+        })
+        .catch(function error(reason) {
+            res.status(500).send(reason)
+        })
+}
+
 function userMiddleware(req, res, next) {
     //TODO: Determine which user is requesting
-    var userId = 'changeme' //<-- change
-
-    if(false && cannotDetermineUser) //<-- change to condition, if the user can not be authorized
-        return res.status(403).send('')
-
-    req.userId = userId
+    req.userId = req.auth.user
 
     next()
 }

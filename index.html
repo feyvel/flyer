@@ -33,7 +33,10 @@
         </div>
     </div>
 
-    <header class="calendar" id="calendar">
+    <div header v-html="content" class="article">
+    </div>
+
+    <header calendar class="calendar">
         <div>
             <div class="day-spacer"></div>
             <div class="timespan">08:00-08:30</div>
@@ -75,7 +78,7 @@
         </div>
     </header>
 
-    <main id="events">
+    <main events>
         <section class="category">
             <section
                 v-bind:id="event._id"
@@ -93,13 +96,13 @@
 
                 <div class="signup">
                     <button
-                        v-if="event.signups.indexOf(userId) == -1"
+                        v-if="!isSignedUp(event)"
                         v-on:click="signUp(event._id)"
                     >
                         Anmelden
                     </button>
                     <button
-                        v-if="event.signups.indexOf(userId) != -1"
+                        v-if="isSignedUp(event)"
                         v-on:click="signOff(event._id)"
                     >
                         Abmelden
