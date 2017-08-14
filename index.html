@@ -20,7 +20,7 @@
         <div class="login-form content-tube">
             <h2>Goehte Universität Psychologie</h2>
 
-            <input v-model="email" class="login-input" placeholder="E-Mail..." type="text">
+            <input v-model="email" class="login-input" placeholder="E-Mail..." type="email">
 
             <input v-model="password" class="login-input" placeholder="Passwort..." type="password">
             <p v-if="loginError" style="color: red">
@@ -39,7 +39,7 @@
     <header calendar class="calendar">
         <div>
             <div class="day-spacer"></div>
-            <div class="timespan">08:00-08:30</div>
+            <!-- <div class="timespan">08:00-08:30</div>
             <div class="timespan">08:30-09:00</div>
             <div class="timespan">09:00-09:30</div>
             <div class="timespan">09:30-10:00</div>
@@ -48,7 +48,7 @@
             <div class="timespan">11:00-11:30</div>
             <div class="timespan">11:30-12:00</div>
             <div class="timespan">12:00-12:30</div>
-            <div class="timespan">12:30-13:00</div>
+            <div class="timespan">12:30-13:00</div> -->
             <div class="timespan">13:00-13:30</div>
             <div class="timespan">13:30-14:00</div>
             <div class="timespan">14:00-14:30</div>
@@ -64,10 +64,17 @@
             <div class="timespan">19:00-19:30</div>
             <div class="timespan">19:30-20:00</div>
             <div class="timespan">20:00-20:30</div>
+            <div class="timespan">20:30-21:00</div>
+            <div class="timespan">21:00-21:30</div>
+            <div class="timespan">21:30-22:00</div>
+            <div class="timespan">22:00-22:30</div>
+            <div class="timespan">22:30-23:00</div>
+            <div class="timespan">23:00-23:30</div>
+            <div class="timespan">23:30-00:00</div>
         </div>
         <div v-for="day in days">
             <div class="day">{{ dayNames[day.moment.day()] }}</div>
-            <div v-for="n in 25"></div>
+            <div v-for="n in 32"></div>
             <div
                 v-bind:class="getEventClasses(event)"
                 v-for="event in day.events"
@@ -80,30 +87,41 @@
 
     <main events>
         <section class="category">
+            <section class="event content-tube">
+                <h2>Meine Events:</h2>
+
+                <ul>
+                    <li v-for="signup in mySignups">
+                        {{ signup }}
+                    </li>
+                </ul>
+            </section>
+
             <section
                 v-bind:id="event._id"
                 v-for="event in events"
                 class="event content-tube"
             >
-                <h1>
+                <h2>
                     {{ event.name }}
                     <small class="new-line">
-                        {{ getTimeSpanString(event) }}, {{ event.location }}
+                        {{ getTimeSpanString(event) }}, Treffpunkt: {{ event.location }}
                     </small>
-                </h1>
+                </h2>
 
                 <p v-html="event.description"></p>
 
                 <div class="signup">
                     <button
-                        v-if="!isSignedUp(event)"
-                        v-on:click="signUp(event._id)"
+                        v-if="!isSignedUp(event) && !isFull(event)"
+                        @click="signUp(event._id)"
                     >
                         Anmelden
                     </button>
                     <button
                         v-if="isSignedUp(event)"
-                        v-on:click="signOff(event._id)"
+                        @click="signOff(event._id)"
+                        :disabled="isFull(event)"
                     >
                         Abmelden
                     </button>
@@ -117,7 +135,8 @@
     </main>
 
     <script src="https://unpkg.com/jquery"></script>
-    <script src="https://unpkg.com/moment"></script>
+    <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script>moment.locale('de')</script>
     <script src="https://unpkg.com/vue"></script>
     <script src="/app.js"></script>
 </body>

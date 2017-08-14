@@ -13,7 +13,7 @@ function updateEvents() {
                     return {
                         name: prismicEvent.getText('event.name'),
                         capacity: prismicEvent.getNumber('event.capacity'),
-                        description: prismicEvent.getStructuredText('event.description').asText(),
+                        description: prismicEvent.getStructuredText('event.description').asHtml(),
                         begins: prismicEvent.getTimestamp('event.begins'),
                         ends: prismicEvent.getTimestamp('event.ends'),
                         location: prismicEvent.getText('event.location'),

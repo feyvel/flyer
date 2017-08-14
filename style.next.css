@@ -63,7 +63,7 @@
     & > div {
         position: relative;
 
-        width: calc((99.9% - 120px) * 1/7);
+        width: calc((99.9% - 120px) * 1/10);
 
         &:first-child {
             width: 120px;
@@ -147,7 +147,7 @@ section.event {
         }
     }
 
-    & h1 {
+    & h1, & h2 {
         font-weight: 200;
     }
 

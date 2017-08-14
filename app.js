@@ -64,7 +64,18 @@ new Vue({
                     'Authorization': buildBasicAuthheader(self.email, self.password)
                 },
                 success: function(data) {
-                    events.push(...data)
+                    data = data.sort(function compareNames(a, b) {
+                        if (a.name< b.name)
+                            return -1
+
+                        if (a.name> b.name)
+                            return 1
+
+                        return 0
+                    })
+
+                    for (var i = 0; i < data.length; i++)
+                        events.push(data[i])
 
                     credentials.email = self.email
                     credentials.password = self.password
@@ -131,6 +142,21 @@ new Vue({
         },
         isSignedUp: function isSignedUp(event) {
             return event.signups.indexOf(credentials.email) != -1
+        },
+        isFull: function isFull(event) {
+            return event.signups.length >= event.capacity
+        }
+    },
+    computed: {
+        mySignups: function getMySignups() {
+            return this
+                .events
+                .filter(function isSignedUp(event) {
+                    return event.signups.indexOf(credentials.email) != -1
+                })
+                .map(function getName(event) {
+                    return event.name
+                })
         }
     }
 })
@@ -152,9 +178,9 @@ new Vue({
     computed: {
         days: function days() {
             var ret = []
-            var start = moment('2017-05-29').hours(0).minutes(0).seconds(0)
+            var start = moment('2017-10-09').hours(0).minutes(0).seconds(0)
 
-            for(var i = 0; i < 7; i++) {
+            for(var i = 0; i < 10; i++) {
                 var actDay = start.clone().add(i, 'days')
 
                 ret.push({
@@ -172,7 +198,7 @@ new Vue({
         getOffset: function getOffset(event) {
             var begins = moment(event.begins)
 
-            var ret = (begins.hours() - 8) * 2
+            var ret = (begins.hours() - 13) * 2
 
             if(begins.minutes() > 29)
                 ret += 1
