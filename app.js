@@ -1,6 +1,6 @@
 var root = $('html, body')
 
-var API_HOST = 'http://localhost:8080'
+var API_HOST = 'http://psy-backend.zinja.io'
 var credentials = {
     email: '',
     password: ''
