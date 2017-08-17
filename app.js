@@ -1,6 +1,6 @@
 var root = $('html, body')
 
-var API_HOST = 'http://psy-backend.zinja.io'
+var API_HOST = 'http://localhost:8080'
 var credentials = {
     email: '',
     password: ''
@@ -65,10 +65,10 @@ new Vue({
                 },
                 success: function(data) {
                     data = data.sort(function compareNames(a, b) {
-                        if (a.name< b.name)
+                        if (a.category < b.category)
                             return -1
 
-                        if (a.name> b.name)
+                        if (a.category > b.category)
                             return 1
 
                         return 0
@@ -87,6 +87,11 @@ new Vue({
                 },
                 dataType: 'json'
             })
+        },
+        isEmailInputValid: function isEmailInputValid() {
+            var validity = document.getElementById('email-input').validity
+
+            return !validity.valueIsMissing && validity.valid
         }
     }
 })
@@ -197,7 +202,7 @@ new Vue({
                     events: this
                         .events
                         .filter(function happensAtCurrentDay(event) {
-                            return moment(event.begins).date() == actDay.date()
+                            return moment(event.begins).dayOfYear() == actDay.dayOfYear()
                         })
                         .sort(function compare(a, b) {
                             return moment(a.begins).diff(moment(b.begins))

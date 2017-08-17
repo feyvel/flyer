@@ -1,3 +1,11 @@
+html, body, input, textarea, button {
+    font-size: 12px;
+
+    @media(--desktop) {
+        font-size: 14px;
+    }
+}
+
 @media(--desktop) {
     html, body, input, textarea, button {
         font-size: 14px;
@@ -50,12 +58,16 @@
     font-weight: 200;
 
     @media(--desktop) {
-        margin-bottom: 90px;
+        margin-bottom: 55px;
     }
 }
 
+.login-button:disabled {
+    opacity: .3;
+}
+
 .content-tube {
-    padding: 30px 0;
+    padding: 30px 8px;
 
     @media(--desktop) {
         padding: 30px calc((100vw - 960px) / 2);
@@ -67,7 +79,11 @@
 }
 
 .calendar {
-    display: flex;
+    display: none;
+
+    @media(--desktop) {
+        display: flex;
+    }
 
     & > div {
         position: relative;
@@ -194,4 +210,8 @@ img.icon {
         display: block;
         width: 100%;
     }
+}
+
+[v-cloak] {
+    display: none;
 }

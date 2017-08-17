@@ -20,20 +20,27 @@
         <div class="login-form content-tube">
             <h2 class="login-heading">Goethe Universität Psychologie</h2>
 
-            <input v-model="email" class="login-input" placeholder="E-Mail..." type="email">
+            <input v-model="email" class="login-input" placeholder="E-Mail..." name="email" type="email" id="email-input">
 
-            <input v-model="password" class="login-input" placeholder="Passwort..." type="password">
-            <p v-if="loginError" style="color: red">
-                Invalid password
+            <input v-model="password" class="login-input" placeholder="Passwort..." name="password" type="password">
+            <p v-if="loginError" v-cloak style="color: red">
+                Ungültiges Passwort
             </p>
 
-            <button @click="login">
+            <p>
+
+            </p>
+
+            <button
+                @click="login"
+                class="login-button"
+            >
                 Login
             </button>
         </div>
     </div>
 
-    <div header v-html="content" class="article">
+    <div header v-html="content" class="content-tube article">
     </div>
 
     <header calendar class="calendar">

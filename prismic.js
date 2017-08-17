@@ -19,7 +19,8 @@ function updateEvents() {
                         location: prismicEvent.getText('event.location'),
                         email: prismicEvent.getText('event.contact-email'),
                         contactName: prismicEvent.getText('event.contact-name'),
-                        color: prismicEvent.getLink('event.category').getColor('event-category.color')
+                        color: prismicEvent.getLink('event.category').getColor('event-category.color'),
+                        category: prismicEvent.getLink('event.category').getText('event-category.name')
                     }
                 }
 
@@ -48,7 +49,12 @@ function updateEvents() {
 
             return api.query(
                 Prismic.Predicates.at('document.type', 'event'),
-                { fetchLinks: 'event-category.color' }
+                {
+                    fetchLinks: [
+                        'event-category.color',
+                        'event-category.name',
+                    ]
+                }
             )
         })
         .then(function updateDatabase(page) {
