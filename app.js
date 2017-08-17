@@ -136,7 +136,7 @@ new Vue({
             this.patchSignUpStatus(id, false)
         },
         getTimeSpanString: function getTimeSpanString(event) {
-            return moment(event.begins).format('dddd, HH:mm')
+            return moment(event.begins).format('dddd DD.MM, HH:mm')
                 + ' - '
                 + moment(event.ends).format('HH:mm')
         },
@@ -145,6 +145,15 @@ new Vue({
         },
         isFull: function isFull(event) {
             return event.signups.length >= event.capacity
+        },
+        getFontColor: function getFontColor(event) {
+
+        },
+        isDark: function isDark(event) {
+            if (!event.color)
+                return false
+
+            return !tinycolor(event.color).isLight()
         }
     },
     computed: {
@@ -185,9 +194,14 @@ new Vue({
 
                 ret.push({
                     moment: actDay,
-                    events: this.events.filter(function happensAtCurrentDay(event) {
-                        return moment(event.begins).date() == actDay.date()
-                    })
+                    events: this
+                        .events
+                        .filter(function happensAtCurrentDay(event) {
+                            return moment(event.begins).date() == actDay.date()
+                        })
+                        .sort(function compare(a, b) {
+                            return moment(a.begins).diff(moment(b.begins))
+                        })
                 })
             }
 
@@ -242,17 +256,5 @@ new Vue({
             },
             success: success
         })
-    }
-})
-
-new Vue({
-    el: '[loggedin-container]',
-    data: {
-        credentials: credentials
-    },
-    computed: {
-        isLoggedIn: function isLoggedIn() {
-            return credentials.email && credentials.password
-        }
     }
 })

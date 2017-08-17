@@ -45,6 +45,15 @@
     }
 }
 
+.login-heading {
+    font-size: 2.6em;
+    font-weight: 200;
+
+    @media(--desktop) {
+        margin-bottom: 90px;
+    }
+}
+
 .content-tube {
     padding: 30px 0;
 
@@ -71,8 +80,8 @@
 
         & > * {
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
 
             min-height: 30px;
             text-align: center;
@@ -100,8 +109,16 @@
         & .event {
             position: absolute;
             left: 0;
+
+            flex-direction: column;
+            justify-content: flex-start;
+
             width: 100%;
             background-color: rgba(43, 47, 42, .33);
+            border-radius: 10px;
+            opacity: .7;
+
+            box-sizing: border-box;
             color: white;
             font-weight: 500;
             font-size: 1.3em;
@@ -122,9 +139,9 @@
 }
 
 section.category {
+    color: #000000;
+
     &:nth-of-type(1) section.event {
-        &:nth-of-type(even) { background-color: rgba(43, 47, 42); color: white; }
-        &:nth-of-type(odd) { background-color: white; }
     }
 }
 
@@ -140,10 +157,6 @@ section.event {
 
         & .signup {
             flex-direction: row-reverse;
-        }
-
-        & img.icon {
-            filter: invert(1);
         }
     }
 
