@@ -73,7 +73,7 @@
             <div class="timespan">23:30-00:00</div>
         </div>
         <div v-for="day in days">
-            <div class="day">{{ dayNames[day.moment.day()] }}</div>
+            <div class="day">{{ day.moment.format('DD, ddd') }}</div>
             <div v-for="n in 32"></div>
             <div
                 v-bind:class="getEventClasses(event)"

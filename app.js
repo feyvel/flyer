@@ -180,7 +180,7 @@ new Vue({
             var ret = []
             var start = moment('2017-10-09').hours(0).minutes(0).seconds(0)
 
-            for(var i = 0; i < 10; i++) {
+            for (var i = 0; i < 10; i++) {
                 var actDay = start.clone().add(i, 'days')
 
                 ret.push({
