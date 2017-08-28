@@ -8,7 +8,7 @@ const db = require('mongoennung')
 
 const collection = db.collection('events')
 
-const PASSWORD = process.env.PASSWORD || 'lalala'
+const PASSWORD = process.env.PASSWORD || '2017psymodul3'
 
 router.use(bodyParser.json({ strict: false }))
 router.use(basicAuth({
