@@ -64,15 +64,23 @@ new Vue({
                     'Authorization': buildBasicAuthheader(self.email, self.password)
                 },
                 success: function(data) {
-                    data = data.sort(function compareNames(a, b) {
-                        if (a.category < b.category)
-                            return -1
+                    data = data
+                        .sort(function compareNames(a, b) {
+                            if (a.category < b.category)
+                                return -1
 
-                        if (a.category > b.category)
-                            return 1
+                            if (a.category > b.category)
+                                return 1
 
-                        return 0
-                    })
+                            return 0
+                        })
+                        .map(function determineIfFirstInCategory(event, index, events) {
+                            event.isFirstIncategory =
+                                index == 0 ||
+                                event.category != events[index - 1].category
+
+                            return event
+                        })
 
                     for (var i = 0; i < data.length; i++)
                         events.push(data[i])

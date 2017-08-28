@@ -20,7 +20,8 @@ function updateEvents() {
                         email: prismicEvent.getText('event.contact-email'),
                         contactName: prismicEvent.getText('event.contact-name'),
                         color: prismicEvent.getLink('event.category').getColor('event-category.color'),
-                        category: prismicEvent.getLink('event.category').getText('event-category.name')
+                        category: prismicEvent.getLink('event.category').getText('event-category.name'),
+                        removeSignUpButton: prismicEvent.getBoolean('event.remove_sign_up_button')
                     }
                 }
 

@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700" rel="stylesheet">
     <link href="/style.min.css" rel="stylesheet">
 
-    <!-- <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <title>Orientierungswoche Psychologie Goethe Uni Frankfurt</title>
 </head>
@@ -101,6 +101,10 @@
             <section class="event content-tube">
                 <h2>Meine Events:</h2>
 
+                <p v-show="mySignups.length == 0">
+                    Du hast dich bisher zu keinem Event angemeldet
+                </p>
+
                 <ul>
                     <li v-for="signup in mySignups">
                         {{ signup }}
@@ -113,7 +117,12 @@
                 v-for="event in events"
                 :style="{ backgroundColor: event.color, color: isDark(event) ? 'white' : 'black' }"
                 class="event content-tube"
+                :class="{ 'event--first-in-category': event.isFirstIncategory }"
             >
+                <h1 v-if="event.isFirstIncategory" class="category-heading">
+                    {{ event.category }}
+                </h1>
+
                 <h2>
                     {{ event.name }}
                     <small class="new-line">
@@ -121,18 +130,18 @@
                     </small>
                 </h2>
 
-                <p v-html="event.description"></p>
+                <div v-html="event.description"></div>
 
                 <div class="signup">
                     <button
-                        v-if="!isSignedUp(event) && !isFull(event)"
+                        v-if="!event.removeSignUpButton && !isSignedUp(event) && !isFull(event)"
                         @click="signUp(event._id)"
                         :style="{ borderColor: isDark(event) ? 'white' : 'black' }"
                     >
                         Anmelden
                     </button>
                     <button
-                        v-if="isSignedUp(event)"
+                        v-if="!event.removeSignUpButton && isSignedUp(event)"
                         @click="signOff(event._id)"
                         :disabled="isFull(event)"
                         :style="{ borderColor: isDark(event) ? 'white' : 'black' }"
@@ -140,7 +149,7 @@
                         Abmelden
                     </button>
                     <img class="icon" src="/person.svg" :style="{ filter: isDark(event) ? 'invert(1)' : '' }">
-                    {{ event.signups.length }}/{{ event.capacity }}
+                    <template v-if="!event.removeSignUpButton">{{ event.signups.length }}/</template>{{ event.capacity }}
                 </div>
 
                 Kontakt: {{ event.contactName }} {{ event.email }}
@@ -152,7 +161,7 @@
     <script src="https://unpkg.com/jquery"></script>
     <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
     <script>moment.locale('de')</script>
-    <script src="https://vuejs.org/js/vue.min.js"></script>
+    <script src="https://vuejs.org/js/vue.js"></script>
     <script src="/app.js"></script>
 </body>
 
