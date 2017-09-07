@@ -34,6 +34,7 @@
             <button
                 @click="login"
                 class="login-button"
+                :disabled="!email || !password"
             >
                 Login
             </button>
@@ -161,7 +162,7 @@
     <script src="https://unpkg.com/jquery"></script>
     <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
     <script>moment.locale('de')</script>
-    <script src="https://vuejs.org/js/vue.js"></script>
+    <script src="https://vuejs.org/js/vue.min.js"></script>
     <script src="/app.js"></script>
 </body>
 
