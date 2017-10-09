@@ -144,7 +144,6 @@
                     <button
                         v-if="!event.removeSignUpButton && isSignedUp(event)"
                         @click="signOff(event._id)"
-                        :disabled="isFull(event)"
                         :style="{ borderColor: isDark(event) ? 'white' : 'black' }"
                     >
                         Abmelden
