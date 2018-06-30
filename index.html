@@ -8,6 +8,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700" rel="stylesheet">
     <link href="/style.min.css" rel="stylesheet">
+    <link href="/tabStyles.css" rel="stylesheet">
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -16,6 +17,8 @@
 </head>
 
 <body>
+
+  </div>
     <div login class="login-overlay" v-bind:class="{ loggedin: loggedIn }">
         <div class="login-form content-tube">
             <h2 class="login-heading">Goethe Universität Psychologie</h2>
@@ -39,6 +42,14 @@
                 Login
             </button>
         </div>
+    </div>
+
+    <div class="nav_bar">
+      <ul>
+        <li><a href="index.html" id="onlink">Home</a></li>
+        <li><a href="projekte.html">Projekte</a></li>
+        <li><a href="links.html">Links</a></li>
+      </ul>
     </div>
 
     <div header v-html="content" class="content-tube article">
