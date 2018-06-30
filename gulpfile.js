@@ -24,9 +24,9 @@ gulp.task('styles', function() {
 })
 
 gulp.task('watch', function() {
-    gulp.watch(PATHS.styles, ['styles'])
+    gulp.watch(PATHS.styles, gulp.series('styles'))
 })
 
-gulp.task('build', ['styles'])
+gulp.task('build', gulp.series('styles'))
 
-gulp.task('default', ['build', 'watch'])
+gulp.task('default', gulp.series('build', 'watch'))

@@ -20,7 +20,7 @@
         <div class="login-form content-tube">
             <h2 class="login-heading">Goethe Universität Psychologie</h2>
 
-            <input v-model="email" class="login-input" placeholder="E-Mail..." name="email" type="email" id="email-input">
+            <input v-model="email" class="login-input" placeholder="E-Mail..." name="email" type="email" id="email-input" onkeyup="this.value = this.value.toLowerCase();">
 
             <input v-model="password" class="login-input" placeholder="Passwort..." name="password" type="password">
             <p v-if="loginError" v-cloak style="color: red">
@@ -44,59 +44,6 @@
     <div header v-html="content" class="content-tube article">
     </div>
 
-    <header calendar class="calendar">
-        <div>
-            <div class="day-spacer"></div>
-            <!-- <div class="timespan">08:00-08:30</div>
-            <div class="timespan">08:30-09:00</div>
-            <div class="timespan">09:00-09:30</div>
-            <div class="timespan">09:30-10:00</div>
-            <div class="timespan">10:00-10:30</div>
-            <div class="timespan">10:30-11:00</div>
-            <div class="timespan">11:00-11:30</div>
-            <div class="timespan">11:30-12:00</div>
-            <div class="timespan">12:00-12:30</div>
-            <div class="timespan">12:30-13:00</div> -->
-            <div class="timespan">13:00-13:30</div>
-            <div class="timespan">13:30-14:00</div>
-            <div class="timespan">14:00-14:30</div>
-            <div class="timespan">14:30-15:00</div>
-            <div class="timespan">15:00-15:30</div>
-            <div class="timespan">15:30-16:00</div>
-            <div class="timespan">16:00-16:30</div>
-            <div class="timespan">16:30-17:00</div>
-            <div class="timespan">17:00-17:30</div>
-            <div class="timespan">17:30-18:00</div>
-            <div class="timespan">18:00-18:30</div>
-            <div class="timespan">18:30-19:00</div>
-            <div class="timespan">19:00-19:30</div>
-            <div class="timespan">19:30-20:00</div>
-            <div class="timespan">20:00-20:30</div>
-            <div class="timespan">20:30-21:00</div>
-            <div class="timespan">21:00-21:30</div>
-            <div class="timespan">21:30-22:00</div>
-            <div class="timespan">22:00-22:30</div>
-            <div class="timespan">22:30-23:00</div>
-            <div class="timespan">23:00-23:30</div>
-            <div class="timespan">23:30-00:00</div>
-        </div>
-        <div v-for="day in days">
-            <div class="day">
-                {{ day.moment.format('dddd') }}<br>
-                {{ day.moment.format('DD.MM.') }}
-            </div>
-            <div v-for="n in 22"></div>
-            <div
-                v-bind:class="getEventClasses(event)"
-                v-for="event in day.events"
-                v-on:click="scrollTo(event)"
-                v-bind:style="{ backgroundColor: event.color }"
-            >
-                {{ event.name.substr(0, 20) }}
-            </div>
-        </div>
-    </header>
-
     <main events>
         <section class="category">
             <section class="event content-tube">
@@ -106,11 +53,12 @@
                     Du hast dich bisher zu keinem Event angemeldet
                 </p>
 
-                <ul>
+                <ul id="signUpList">
                     <li v-for="signup in mySignups">
                         {{ signup }}
                     </li>
                 </ul>
+
             </section>
 
             <section
@@ -136,9 +84,16 @@
                 <div class="signup">
                     <button
                         v-if="!event.removeSignUpButton && !isSignedUp(event) && !isFull(event)"
-                        @click="signUp(event._id)"
+                        @click="alertTooMany() + signUp(event._id)"
                         :style="{ borderColor: isDark(event) ? 'white' : 'black' }"
                     >
+
+                    <script>
+                    function alertTooMany() {
+                      if(document.getElementById("signUpList").getElementsByTagName("li").length >= 5) {
+                        alert("Bitte nur für vier Projekte anmelden")}}
+                    </script>
+
                         Anmelden
                     </button>
                     <button
